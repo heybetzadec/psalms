@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:psalms/help/base_app_bar.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 
 class VersesByWord extends StatefulWidget {

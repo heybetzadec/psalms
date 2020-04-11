@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:psalms/help/const.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 
 enum TabItem { chapter, words, theme, names, other }

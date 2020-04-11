@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 
 class NameList extends StatefulWidget {
   final RouteBox routeBox;

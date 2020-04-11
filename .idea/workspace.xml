@@ -6,6 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="f8d5047b-bc20-41de-93fa-ed02b1cd088a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/locale/i18n_en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/locale/i18n_en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/locale/i18n_tr.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/locale/i18n_tr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/help/base_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/help/base_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/help/const.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/help/const.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/help/event_key.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/help/event_key.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/help/route_bus.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/help/route_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/controller/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/controller/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/controller/bottom_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/controller/bottom_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/controller/tab_navigator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/controller/tab_navigator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/controller/tab_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/controller/tab_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab1/chapter_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab1/chapter_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab1/verse_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab1/verse_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab2/letter_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab2/letter_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab2/verses_by_word.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab2/verses_by_word.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab2/word_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab2/word_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab3/chapter_by_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab3/chapter_by_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab3/theme_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab3/theme_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab3/verses_by_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab3/verses_by_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab4/name_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab4/name_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab5/other.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab5/other.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/tabs/tab5/template.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/tabs/tab5/template.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

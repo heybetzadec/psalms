@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:psalms/help/event_key.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 
 class BaseAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -76,7 +75,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       IconButton(
-        tooltip: 'Clear',
+        tooltip: Translations.of(context).text("clear"),
         icon: const Icon((Icons.clear)),
         onPressed: () {
           query = '';

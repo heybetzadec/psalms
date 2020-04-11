@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:psalms/help/base_app_bar.dart';
 import 'package:psalms/help/const.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab2/word_list.dart';
 

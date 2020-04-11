@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:psalms/help/route_bus.dart';
+import 'package:psalms/help/route_box.dart';
 import 'package:psalms/tabs/controller/bottom_navigation.dart';
 import 'package:psalms/tabs/controller/for_route.dart';
 import 'package:psalms/tabs/tab1/chapter_list.dart';

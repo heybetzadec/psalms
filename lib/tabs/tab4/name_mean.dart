@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:psalms/tabs/controller/for_route.dart';
+import 'package:psalms/help/route_box.dart';
 
 class NameMean extends StatefulWidget {
-  final ValueChanged<ForRoute> onPush;
+  final RouteBox routeBox;
 
-  NameMean({Key key, this.onPush}) : super(key: key);
+  NameMean({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _NameMeanState createState() => _NameMeanState(onPush);
+  _NameMeanState createState() => _NameMeanState(routeBox);
 }
 
 class _NameMeanState extends State<NameMean> {
-  final ValueChanged<ForRoute> onPush;
+  final RouteBox routeBox;
 
-  _NameMeanState(this.onPush);
+  _NameMeanState(this.routeBox);
 
   @override
   void initState() {

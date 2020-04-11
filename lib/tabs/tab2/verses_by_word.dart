@@ -23,9 +23,10 @@ class _VersesByWordState extends State<VersesByWord> {
   final int chapterId;
   final int verseId;
 
+  var _dataList = new List<Map<String, dynamic>>();
+  
   _VersesByWordState(this.routeBox, this.chapterId, this.verseId);
 
-  var dataList = new List<Map<String, dynamic>>();
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _VersesByWordState extends State<VersesByWord> {
               "SELECT verse_id, text  FROM verse WHERE chapter_id=$chapterId;")
           .then((value) {
         setState(() {
-          dataList = value.toList();
+          _dataList = value.toList();
         });
       });
     });
@@ -53,9 +54,9 @@ class _VersesByWordState extends State<VersesByWord> {
       body: Container(
         margin: EdgeInsets.only(top: 2),
         child: ListView.builder(
-          itemCount: dataList.length,
+          itemCount: _dataList.length,
           itemBuilder: (context, index) {
-            var itemValue = dataList[index].values.toList();
+            var itemValue = _dataList[index].values.toList();
             return new Card(
               margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
               shape: RoundedRectangleBorder(

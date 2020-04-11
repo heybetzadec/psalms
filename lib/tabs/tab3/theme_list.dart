@@ -19,43 +19,43 @@ class ThemeList extends StatefulWidget {
 class _ThemeListState extends State<ThemeList> {
   final RouteBox routeBox;
 
+  var _dataList = new List<Map<String, dynamic>>();
+  var _searchList = new List<Map<String, dynamic>>();
+  FocusNode _searchFocusNode;
+  TextEditingController _searchController = new TextEditingController();
+  bool _searchFocus = false;
+  ScrollController _scrollController;
+
   _ThemeListState(this.routeBox);
 
-  var dataList = new List<Map<String, dynamic>>();
-  var searchList = new List<Map<String, dynamic>>();
-  var translate = new Map<dynamic, dynamic>();
-  FocusNode searchFocusNode;
-  TextEditingController searchController = new TextEditingController();
-  bool searchFocus = false;
-  ScrollController scrollController;
 
   @override
   void initState() {
-    searchFocusNode = FocusNode();
-    scrollController = ScrollController();
+    _searchFocusNode = FocusNode();
+    _scrollController = ScrollController();
 
     routeBox.dbf.then((db) {
       db.rawQuery("SELECT theme_id, theme_name  FROM theme;").then((value) {
         setState(() {
-          dataList = value.toList();
-          searchList = dataList;
+          _dataList = value.toList();
+          _searchList = _dataList;
         });
       });
     });
 
     routeBox.eventBus.on<ThemeClickEvent>().listen((event) {
-      searchFocusNode.unfocus();
-      searchController.clear();
+      _searchFocusNode.unfocus();
+      _searchController.clear();
       setState(() {
-        searchList = dataList;
+        _searchList = _dataList;
       });
     });
 
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         if (!visible) {
-          searchFocusNode.unfocus();
-          searchFocus = false;
+          _searchFocusNode.unfocus();
+          _searchFocus = false;
         }
       },
     );
@@ -65,15 +65,15 @@ class _ThemeListState extends State<ThemeList> {
 
   @override
   void dispose() {
-    searchFocusNode.dispose();
+    _searchFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    searchFocusNode.addListener(() {
+    _searchFocusNode.addListener(() {
       setState(() {
-        searchFocus = searchFocusNode.hasFocus;
+        _searchFocus = _searchFocusNode.hasFocus;
       });
     });
 
@@ -86,7 +86,7 @@ class _ThemeListState extends State<ThemeList> {
       body: Container(
         margin: EdgeInsets.only(top: 2),
         child: CustomScrollView(
-          controller: scrollController,
+          controller: _scrollController,
           slivers: <Widget>[
             SliverAppBar(
               backgroundColor: Colors.white,
@@ -96,15 +96,15 @@ class _ThemeListState extends State<ThemeList> {
                   top: 4,
                 ),
                 child: TextField(
-                  controller: searchController,
+                  controller: _searchController,
                   autofocus: false,
                   autocorrect: false,
                   textInputAction: TextInputAction.search,
-                  focusNode: searchFocusNode,
+                  focusNode: _searchFocusNode,
                   onChanged: (value) {
                     var searched = new List<Map<String, dynamic>>();
                     setState(() {
-                      searched.addAll(dataList.where((element) {
+                      searched.addAll(_dataList.where((element) {
                         String item =
                             element.values.last.toString().toLowerCase();
                         value = value.toLowerCase();
@@ -112,13 +112,13 @@ class _ThemeListState extends State<ThemeList> {
                       }));
                     });
                     setState(() {
-                      searchList = searched;
+                      _searchList = searched;
                     });
                   },
                   decoration: InputDecoration(
                       hintText: Translations.of(context).text("page_search"),
                       contentPadding: EdgeInsets.all(15),
-                      suffixIcon: getSearchSuffix(searchFocus),
+                      suffixIcon: getSearchSuffix(_searchFocus),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.grey, width: 0.0),
@@ -130,7 +130,7 @@ class _ThemeListState extends State<ThemeList> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  var itemValue = searchList[index].values;
+                  var itemValue = _searchList[index].values;
                   return new Card(
                     margin:
                         EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
@@ -140,16 +140,16 @@ class _ThemeListState extends State<ThemeList> {
                     elevation: 1,
                     child: new InkWell(
                       onTap: () {
-                        searchFocusNode.unfocus();
+                        _searchFocusNode.unfocus();
                         Navigator.of(context).push(Const.customRoute((context) {
                           return ChapterByTheme(
                             routeBox: routeBox,
                             themeId: itemValue.first,
                           );
                         })).then((value) {
-                          searchController.clear();
+                          _searchController.clear();
                           setState(() {
-                            searchList = dataList;
+                            _searchList = _dataList;
                           });
                         });
                       },
@@ -163,7 +163,7 @@ class _ThemeListState extends State<ThemeList> {
                     ),
                   );
                 },
-                childCount: searchList.length,
+                childCount: _searchList.length,
               ),
             ),
           ],
@@ -177,13 +177,13 @@ class _ThemeListState extends State<ThemeList> {
       return IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (searchController.text.length == 0) {
-              searchFocusNode.unfocus();
+            if (_searchController.text.length == 0) {
+              _searchFocusNode.unfocus();
             } else {
-              searchController.clear();
+              _searchController.clear();
             }
             setState(() {
-              searchList = dataList;
+              _searchList = _dataList;
             });
           });
     } else {

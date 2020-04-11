@@ -21,20 +21,21 @@ class _WordListState extends State<WordList> {
   final RouteBox routeBox;
   final int letterId;
 
+
+  var _dataList = new List<Map<String, dynamic>>();
+  var _searchList = new List<Map<String, dynamic>>();
+  FocusNode __searchFocusNode;
+  TextEditingController _searchController = new TextEditingController();
+  bool _searchFocus = false;
+  ScrollController _scrollController;
+
   _WordListState(this.routeBox, this.letterId);
 
-  var dataList = new List<Map<String, dynamic>>();
-  var searchList = new List<Map<String, dynamic>>();
-  var translate = new Map<dynamic, dynamic>();
-  FocusNode searchFocusNode;
-  TextEditingController searchController = new TextEditingController();
-  bool searchFocus = false;
-  ScrollController scrollController;
 
   @override
   void initState() {
-    searchFocusNode = FocusNode();
-    scrollController = ScrollController();
+    __searchFocusNode = FocusNode();
+    _scrollController = ScrollController();
 
     var where = ";";
     if (letterId != 0) {
@@ -46,23 +47,23 @@ class _WordListState extends State<WordList> {
               "SELECT firstline_id, firstline_name, chapter_id, verse_id  FROM firstline $where")
           .then((value) {
         setState(() {
-          dataList = value.toList();
-          searchList = dataList;
+          _dataList = value.toList();
+          _searchList = _dataList;
         });
       });
     });
 
     routeBox.eventBus.on<LetterClickEvent>().listen((event) {
-      searchFocusNode.unfocus();
-      searchController.clear();
-      searchList = dataList;
+      __searchFocusNode.unfocus();
+      _searchController.clear();
+      _searchList = _dataList;
     });
 
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         if (!visible) {
-          searchFocusNode.unfocus();
-          searchFocus = false;
+          __searchFocusNode.unfocus();
+          _searchFocus = false;
         }
       },
     );
@@ -72,15 +73,15 @@ class _WordListState extends State<WordList> {
 
   @override
   void dispose() {
-    searchFocusNode.dispose();
+    __searchFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    searchFocusNode.addListener(() {
+    __searchFocusNode.addListener(() {
       setState(() {
-        searchFocus = searchFocusNode.hasFocus;
+        _searchFocus = __searchFocusNode.hasFocus;
       });
     });
 
@@ -91,7 +92,7 @@ class _WordListState extends State<WordList> {
         appBar: AppBar(),
       ),
       body: CustomScrollView(
-        controller: scrollController,
+        controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -102,15 +103,15 @@ class _WordListState extends State<WordList> {
                 top: 4,
               ),
               child: TextField(
-                controller: searchController,
+                controller: _searchController,
                 autofocus: false,
                 autocorrect: false,
                 textInputAction: TextInputAction.search,
-                focusNode: searchFocusNode,
+                focusNode: __searchFocusNode,
                 onChanged: (value) {
                   var searched = new List<Map<String, dynamic>>();
                   setState(() {
-                    searched.addAll(dataList.where((element) {
+                    searched.addAll(_dataList.where((element) {
                       String item =
                           element.values.toList()[1].toString().toLowerCase();
                       value = value.toLowerCase();
@@ -118,13 +119,13 @@ class _WordListState extends State<WordList> {
                     }));
                   });
                   setState(() {
-                    searchList = searched;
+                    _searchList = searched;
                   });
                 },
                 decoration: InputDecoration(
                     hintText: Translations.of(context).text("page_search"),
                     contentPadding: EdgeInsets.all(15),
-                    suffixIcon: getSearchSuffix(searchFocus),
+                    suffixIcon: getSearchSuffix(_searchFocus),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.grey, width: 0.0),
@@ -136,7 +137,7 @@ class _WordListState extends State<WordList> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                var itemValue = searchList[index].values.toList();
+                var itemValue = _searchList[index].values.toList();
                 return new Card(
                   margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
                   shape: RoundedRectangleBorder(
@@ -145,7 +146,7 @@ class _WordListState extends State<WordList> {
                   elevation: 1,
                   child: new InkWell(
                     onTap: () {
-                      searchFocusNode.unfocus();
+                      __searchFocusNode.unfocus();
                       Navigator.of(context).push(Const.customRoute((context) {
                         return VersesByWord(
                           routeBox: routeBox,
@@ -153,9 +154,9 @@ class _WordListState extends State<WordList> {
                           verseId: itemValue[3],
                         );
                       })).then((value) {
-                        searchController.clear();
+                        _searchController.clear();
                         setState(() {
-                          searchList = dataList;
+                          _searchList = _dataList;
                         });
                       });
                     },
@@ -167,7 +168,7 @@ class _WordListState extends State<WordList> {
                   ),
                 );
               },
-              childCount: searchList.length,
+              childCount: _searchList.length,
             ),
           ),
         ],
@@ -180,13 +181,13 @@ class _WordListState extends State<WordList> {
       return IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (searchController.text.length == 0) {
-              searchFocusNode.unfocus();
+            if (_searchController.text.length == 0) {
+              __searchFocusNode.unfocus();
             } else {
-              searchController.clear();
+              _searchController.clear();
             }
             setState(() {
-              searchList = dataList;
+              _searchList = _dataList;
             });
           });
     } else {

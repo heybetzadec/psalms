@@ -16,19 +16,21 @@ class LetterList extends StatefulWidget {
 
 class _LetterListState extends State<LetterList> {
   final RouteBox routeBox;
-
+  
+  List<Map<String, dynamic>> _dataList;
+  
+  
   _LetterListState(this.routeBox);
 
-  List<Map<String, dynamic>> dataList;
 
   @override
   void initState() {
-    dataList = new List<Map<String, dynamic>>();
-    dataList.add({'letter_id': 0, 'letter_name': 'All'});
+    _dataList = new List<Map<String, dynamic>>();
+    _dataList.add({'letter_id': 0, 'letter_name': 'All'});
     routeBox.dbf.then((db) {
       db.rawQuery("SELECT letter_id, letter_name  FROM letter;").then((value) {
         setState(() {
-          dataList.addAll(value);
+          _dataList.addAll(value);
         });
       });
     });
@@ -46,9 +48,9 @@ class _LetterListState extends State<LetterList> {
       body: Container(
         margin: EdgeInsets.only(top: 2),
         child: ListView.builder(
-          itemCount: dataList.length,
+          itemCount: _dataList.length,
           itemBuilder: (context, index) {
-            var itemValue = dataList[index].values;
+            var itemValue = _dataList[index].values;
             return new Card(
               margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
               shape: RoundedRectangleBorder(

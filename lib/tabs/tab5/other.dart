@@ -19,14 +19,14 @@ class Other extends StatefulWidget {
 
 class _OtherState extends State<Other> {
   final RouteBox routeBox;
+  
   double _fontSize = 18;
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _currentLang;
+  List _langNames = ["Engilish", "Türkçe"];
 
   _OtherState(this.routeBox);
 
-  List _langs = ["Engilish", "Türkçe"];
-
-  List<DropdownMenuItem<String>> _dropDownMenuItems;
-  String _currentLang;
 
   void add() {
     setState(() {
@@ -145,7 +145,7 @@ class _OtherState extends State<Other> {
   }
 
   void changedDropDownItem(String _currentLang) {
-    if(_currentLang == _langs[0]){
+    if(_currentLang == _langNames[0]){
       Locale newLocale = Locale('en', 'TR');
       Main.setLocale(context, newLocale);
     } else {
@@ -160,7 +160,7 @@ class _OtherState extends State<Other> {
 
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
-    for (String city in _langs) {
+    for (String city in _langNames) {
       // here we are creating the drop down menu items, you can customize the item right here
       // but I'll just use a simple text for this
       items.add(new DropdownMenuItem(

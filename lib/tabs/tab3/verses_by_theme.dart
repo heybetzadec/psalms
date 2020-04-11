@@ -18,9 +18,10 @@ class _VersesByThemeState extends State<VersesByTheme> {
   final RouteBox routeBox;
   final int chapterId;
 
+  var _dataList = new List<Map<String, dynamic>>();
+
   _VersesByThemeState(this.routeBox, this.chapterId);
 
-  var dataList = new List<Map<String, dynamic>>();
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _VersesByThemeState extends State<VersesByTheme> {
               "SELECT verse_id, text  FROM verse WHERE chapter_id=$chapterId;")
           .then((value) {
         setState(() {
-          dataList = value.toList();
+          _dataList = value.toList();
         });
       });
     });
@@ -48,9 +49,9 @@ class _VersesByThemeState extends State<VersesByTheme> {
       body: Container(
         margin: EdgeInsets.only(top: 2),
         child: ListView.builder(
-          itemCount: dataList.length,
+          itemCount: _dataList.length,
           itemBuilder: (context, index) {
-            var itemValue = dataList[index].values.toList();
+            var itemValue = _dataList[index].values.toList();
             return new Card(
               margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
               shape: RoundedRectangleBorder(

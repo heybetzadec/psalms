@@ -23,81 +23,78 @@ class _ChapterListState extends State<ChapterList> {
 
   _ChapterListState(this.routeBox);
 
-  var dataList = new List<Map<String, dynamic>>();
-  var searchList = new List<Map<String, dynamic>>();
-  var translate = new Map<dynamic, dynamic>();
-  FocusNode searchFocusNode;
-  TextEditingController searchController = new TextEditingController();
-  bool searchFocus = false;
-  ScrollController scrollController;
-  double fontSize = 18;
-  String appTitle = "";
+  var _dataList = new List<Map<String, dynamic>>();
+  var _searchList = new List<Map<String, dynamic>>();
+  FocusNode __searchFocusNode;
+  TextEditingController _searchController = new TextEditingController();
+  bool _searchFocus = false;
+  ScrollController _scrollController;
+  double _fontSize = 18;
 
   @override
   void initState() {
-    searchFocusNode = FocusNode();
-    scrollController = ScrollController();
-
+    __searchFocusNode = FocusNode();
+    _scrollController = ScrollController();
     getSharedData();
-
     routeBox.dbf.then((db) {
       db
           .rawQuery("SELECT chapter_id  FROM verse GROUP BY chapter_id; ")
           .then((value) {
         setState(() {
-          dataList = value.toList();
-          searchList = dataList;
+          _dataList = value.toList();
+          _searchList = _dataList;
         });
       });
     });
 
     routeBox.eventBus.on<ChapterClickEvent>().listen((event) {
-      searchFocusNode.unfocus();
-      searchController.clear();
+      __searchFocusNode.unfocus();
+      _searchController.clear();
       setState(() {
         getSharedData();
-        searchList = dataList;
+        _searchList = _dataList;
       });
     });
 
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
         if (!visible) {
-          searchFocusNode.unfocus();
-          searchFocus = false;
+          __searchFocusNode.unfocus();
+          _searchFocus = false;
         }
       },
     );
+
+    __searchFocusNode.addListener(() {
+      setState(() {
+        _searchFocus = __searchFocusNode.hasFocus;
+      });
+    });
+    
     super.initState();
   }
 
 
   Future<void> getSharedData() async {
     SharedPreferences sharedData = await SharedPreferences.getInstance();
+    var fontSize  = sharedData.getDouble('fontSize');
+    if(_fontSize == null){ // if app first time open
+      _fontSize = 18;
+      sharedData.setDouble("fontSize", _fontSize);
+    }
     setState(() {
-      fontSize  = sharedData.getDouble('fontSize');
-      if(fontSize==null){
-        fontSize = 18;
-        sharedData.setDouble("fontSize", fontSize);
-      }
+      _fontSize = fontSize;
     });
   }
 
   @override
   void dispose() {
-    searchFocusNode.dispose();
+    __searchFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    appTitle = Translations.of(context).text("psalms");
-    searchFocusNode.addListener(() {
-      setState(() {
-        searchFocus = searchFocusNode.hasFocus;
-      });
-    });
-
     return Scaffold(
       appBar: BaseAppBar(
         routeBox: routeBox,
@@ -105,7 +102,7 @@ class _ChapterListState extends State<ChapterList> {
         appBar: AppBar(),
       ),
       body: CustomScrollView(
-        controller: scrollController,
+        controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
             backgroundColor: Colors.white,
@@ -115,15 +112,15 @@ class _ChapterListState extends State<ChapterList> {
                 top: 4,
               ),
               child: TextField(
-                controller: searchController,
+                controller: _searchController,
                 autofocus: false,
                 autocorrect: false,
                 textInputAction: TextInputAction.search,
-                focusNode: searchFocusNode,
+                focusNode: __searchFocusNode,
                 onChanged: (value) {
                   var searched = new List<Map<String, dynamic>>();
                   setState(() {
-                    searched.addAll(dataList.where((element) {
+                    searched.addAll(_dataList.where((element) {
                       String item =
                           element.values.last.toString().toLowerCase();
                       value = value
@@ -135,13 +132,13 @@ class _ChapterListState extends State<ChapterList> {
                     }));
                   });
                   setState(() {
-                    searchList = searched;
+                    _searchList = searched;
                   });
                 },
                 decoration: InputDecoration(
                     hintText: Translations.of(context).text("page_search"),
                     contentPadding: EdgeInsets.all(15),
-                    suffixIcon: getSearchSuffix(searchFocus),
+                    suffixIcon: getSearchSuffix(_searchFocus),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.grey, width: 0.0),
@@ -153,7 +150,7 @@ class _ChapterListState extends State<ChapterList> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                var itemValue = searchList[index].values;
+                var itemValue = _searchList[index].values;
                 return new Card(
                   margin: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 1),
                   shape: RoundedRectangleBorder(
@@ -162,23 +159,23 @@ class _ChapterListState extends State<ChapterList> {
                   elevation: 1,
                   child: new InkWell(
                     onTap: () {
-                      searchFocusNode.unfocus();
+                      __searchFocusNode.unfocus();
                       Navigator.of(context).push(Const.customRoute((context) {
                         return VerseList(
                           routeBox: routeBox,
                           chapterId: itemValue.first,
                         );
                       })).then((value) {
-                        searchController.clear();
+                        _searchController.clear();
                         setState(() {
-                          searchList = dataList;
+                          _searchList = _dataList;
                         });
                       });
                     },
                     child: ListTile(
                       title: Text(
                         '${Translations.of(context).text("psalm")} ${itemValue.first}',
-                        style: TextStyle(fontSize: fontSize),
+                        style: TextStyle(fontSize: _fontSize),
                       ),
                       trailing: Icon(
                         Icons.arrow_forward_ios,
@@ -188,7 +185,7 @@ class _ChapterListState extends State<ChapterList> {
                   ),
                 );
               },
-              childCount: searchList.length,
+              childCount: _searchList.length,
             ),
           ),
         ],
@@ -201,13 +198,13 @@ class _ChapterListState extends State<ChapterList> {
       return IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (searchController.text.length == 0) {
-              searchFocusNode.unfocus();
+            if (_searchController.text.length == 0) {
+              __searchFocusNode.unfocus();
             } else {
-              searchController.clear();
+              _searchController.clear();
             }
             setState(() {
-              searchList = dataList;
+              _searchList = _dataList;
             });
           });
     } else {

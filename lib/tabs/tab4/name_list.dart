@@ -3,18 +3,18 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:psalms/help/route_bus.dart';
 
 class NameList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  NameList({Key key, this.routeBus}) : super(key: key);
+  NameList({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _NameListState createState() => _NameListState(routeBus);
+  _NameListState createState() => _NameListState(routeBox);
 }
 
 class _NameListState extends State<NameList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _NameListState(this.routeBus);
+  _NameListState(this.routeBox);
 
   @override
   void initState() {

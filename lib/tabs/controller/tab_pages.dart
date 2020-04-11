@@ -12,9 +12,9 @@ class TabPages extends StatelessWidget {
   final String title;
   final ValueChanged<ForRoute> onPush;
   final TabItem tabItem;
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  TabPages({this.title, this.onPush, this.tabItem, this.routeBus});
+  TabPages({this.title, this.onPush, this.tabItem, this.routeBox});
 
   Widget widgetTab;
 
@@ -24,35 +24,35 @@ class TabPages extends StatelessWidget {
       case TabItem.chapter:
         {
           widgetTab = ChapterList(
-            routeBus: routeBus,
+            routeBox: routeBox,
           );
         }
         break;
       case TabItem.words:
         {
           widgetTab = LetterList(
-            routeBus: routeBus,
+            routeBox: routeBox,
           );
         }
         break;
       case TabItem.theme:
         {
           widgetTab = ThemeList(
-            routeBus: routeBus,
+            routeBox: routeBox,
           );
         }
         break;
       case TabItem.other:
         {
           widgetTab = Other(
-            routeBus: routeBus,
+            routeBox: routeBox,
           );
         }
         break;
       default:
         {
           widgetTab = ChapterList(
-            routeBus: routeBus,
+            routeBox: routeBox,
           );
         }
         break;

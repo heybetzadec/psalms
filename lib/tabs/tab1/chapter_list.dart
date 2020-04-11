@@ -10,18 +10,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tinycolor/tinycolor.dart';
 
 class ChapterList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  ChapterList({Key key, this.routeBus}) : super(key: key);
+  ChapterList({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _ChapterListState createState() => _ChapterListState(routeBus);
+  _ChapterListState createState() => _ChapterListState(routeBox);
 }
 
 class _ChapterListState extends State<ChapterList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _ChapterListState(this.routeBus);
+  _ChapterListState(this.routeBox);
 
   var dataList = new List<Map<String, dynamic>>();
   var searchList = new List<Map<String, dynamic>>();
@@ -40,7 +40,7 @@ class _ChapterListState extends State<ChapterList> {
 
     getSharedData();
 
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery("SELECT chapter_id  FROM verse GROUP BY chapter_id; ")
           .then((value) {
@@ -51,7 +51,7 @@ class _ChapterListState extends State<ChapterList> {
       });
     });
 
-    routeBus.eventBus.on<ChapterClickEvent>().listen((event) {
+    routeBox.eventBus.on<ChapterClickEvent>().listen((event) {
       searchFocusNode.unfocus();
       searchController.clear();
       setState(() {
@@ -100,7 +100,7 @@ class _ChapterListState extends State<ChapterList> {
 
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "psalms",
         appBar: AppBar(),
       ),
@@ -165,7 +165,7 @@ class _ChapterListState extends State<ChapterList> {
                       searchFocusNode.unfocus();
                       Navigator.of(context).push(Const.customRoute((context) {
                         return VerseList(
-                          routeBus: routeBus,
+                          routeBox: routeBox,
                           chapterId: itemValue.first,
                         );
                       })).then((value) {

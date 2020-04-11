@@ -23,7 +23,7 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   TabItem _currentTab = TabItem.chapter;
   EventBus _eventBus = new EventBus();
-  RouteBus _routeBus;
+  RouteBox _routeBox;
   double _fontSize = 16;
 
   optionChangeSize(double fontSize) {
@@ -43,7 +43,7 @@ class AppState extends State<App> {
   @override
   void initState() {
     var dbf = getDatabase();
-    _routeBus = new RouteBus(
+    _routeBox = new RouteBox(
         eventBus: _eventBus,
         dbf: dbf,
         languageId: 1,
@@ -122,7 +122,7 @@ class AppState extends State<App> {
         bottomNavigationBar: BottomNavigation(
           currentTab: _currentTab,
           onSelectTab: _selectTab,
-          routeBus: _routeBus,
+          routeBox: _routeBox,
         ),
       ),
     );
@@ -165,7 +165,7 @@ class AppState extends State<App> {
       offstage: _currentTab != tabItem,
       child: TabNavigator(
         navigatorKey: _navigatorKeys[tabItem],
-        routeBus: _routeBus,
+        routeBox: _routeBox,
         tabItem: tabItem,
       ),
     );

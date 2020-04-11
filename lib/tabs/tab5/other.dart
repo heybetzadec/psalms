@@ -9,19 +9,19 @@ import 'package:psalms/tabs/controller/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Other extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  Other({Key key, this.routeBus}) : super(key: key);
+  Other({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _OtherState createState() => _OtherState(routeBus);
+  _OtherState createState() => _OtherState(routeBox);
 }
 
 class _OtherState extends State<Other> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   double _fontSize = 18;
 
-  _OtherState(this.routeBus);
+  _OtherState(this.routeBox);
 
   List _langs = ["Engilish", "Türkçe"];
 
@@ -60,7 +60,7 @@ class _OtherState extends State<Other> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "psalms",
         appBar: AppBar(),
       ),

@@ -5,26 +5,26 @@ import 'package:psalms/help/base_app_bar.dart';
 import 'package:psalms/help/route_bus.dart';
 
 class VersesByTheme extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int chapterId;
 
-  VersesByTheme({Key key, this.routeBus, this.chapterId}) : super(key: key);
+  VersesByTheme({Key key, this.routeBox, this.chapterId}) : super(key: key);
 
   @override
-  _VersesByThemeState createState() => _VersesByThemeState(routeBus, chapterId);
+  _VersesByThemeState createState() => _VersesByThemeState(routeBox, chapterId);
 }
 
 class _VersesByThemeState extends State<VersesByTheme> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int chapterId;
 
-  _VersesByThemeState(this.routeBus, this.chapterId);
+  _VersesByThemeState(this.routeBox, this.chapterId);
 
   var dataList = new List<Map<String, dynamic>>();
 
   @override
   void initState() {
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery(
               "SELECT verse_id, text  FROM verse WHERE chapter_id=$chapterId;")
@@ -41,7 +41,7 @@ class _VersesByThemeState extends State<VersesByTheme> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "verses",
         appBar: AppBar(),
       ),

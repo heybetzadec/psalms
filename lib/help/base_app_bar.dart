@@ -9,23 +9,23 @@ import 'package:psalms/help/translations.dart';
 class BaseAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String titleKey;
   final AppBar appBar;
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  BaseAppBar({Key key, this.titleKey, this.appBar, this.routeBus}) : super(key: key);
+  BaseAppBar({Key key, this.titleKey, this.appBar, this.routeBox}) : super(key: key);
 
   @override
   Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
 
   @override
-  _BaseAppBarState createState() => _BaseAppBarState(titleKey, appBar, routeBus);
+  _BaseAppBarState createState() => _BaseAppBarState(titleKey, appBar, routeBox);
 }
 
 class _BaseAppBarState extends State<BaseAppBar> {
   final String titleKey;
   final AppBar appBar;
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _BaseAppBarState(this.titleKey, this.appBar, this.routeBus);
+  _BaseAppBarState(this.titleKey, this.appBar, this.routeBox);
 
   String query = '';
   String _title  = '';
@@ -48,7 +48,7 @@ class _BaseAppBarState extends State<BaseAppBar> {
           ),
           onPressed: () async {
             final String selected = await showSearch(
-                context: context, delegate: _MySearchDelegate(routeBus));
+                context: context, delegate: _MySearchDelegate(routeBox));
 
             if (selected != null && selected != query) {
               setState(() {
@@ -63,14 +63,14 @@ class _BaseAppBarState extends State<BaseAppBar> {
 }
 
 class _MySearchDelegate extends SearchDelegate<String> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
 
   var dataList = new List<Map<String, dynamic>>();
 
   List<String> filterName = new List();
 
-  _MySearchDelegate( this.routeBus);
+  _MySearchDelegate( this.routeBox);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -104,7 +104,7 @@ class _MySearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery(
           "SELECT chapter_id, verse_id, text  FROM verse WHERE lang_id = 1 AND text LIKE '%$query%' LIMIT 100;")

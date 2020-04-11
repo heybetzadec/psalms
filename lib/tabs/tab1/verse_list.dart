@@ -8,28 +8,28 @@ import 'package:psalms/help/translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerseList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int chapterId;
 
-  VerseList({Key key, this.routeBus, this.chapterId}) : super(key: key);
+  VerseList({Key key, this.routeBox, this.chapterId}) : super(key: key);
 
   @override
-  _VerseListState createState() => _VerseListState(routeBus, chapterId);
+  _VerseListState createState() => _VerseListState(routeBox, chapterId);
 }
 
 class _VerseListState extends State<VerseList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int chapterId;
   double fontSize = 18;
 
-  _VerseListState(this.routeBus, this.chapterId);
+  _VerseListState(this.routeBox, this.chapterId);
 
   var dataList = new List<Map<String, dynamic>>();
 
   @override
   void initState() {
     getSharedData();
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery(
               "SELECT verse_id, text  FROM verse WHERE chapter_id=$chapterId;")
@@ -40,7 +40,7 @@ class _VerseListState extends State<VerseList> {
       });
     });
 
-//    routeBus.eventBus.on<ChapterClickEvent>().listen((event) {
+//    routeBox.eventBus.on<ChapterClickEvent>().listen((event) {
 //      setState(() {
 //        getSharedData();
 //      });
@@ -59,7 +59,7 @@ class _VerseListState extends State<VerseList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "verses",
         appBar: AppBar(),
       ),

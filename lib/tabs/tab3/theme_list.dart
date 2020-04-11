@@ -8,18 +8,18 @@ import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab3/chapter_by_theme.dart';
 
 class ThemeList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  ThemeList({Key key, this.routeBus}) : super(key: key);
+  ThemeList({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _ThemeListState createState() => _ThemeListState(routeBus);
+  _ThemeListState createState() => _ThemeListState(routeBox);
 }
 
 class _ThemeListState extends State<ThemeList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _ThemeListState(this.routeBus);
+  _ThemeListState(this.routeBox);
 
   var dataList = new List<Map<String, dynamic>>();
   var searchList = new List<Map<String, dynamic>>();
@@ -34,7 +34,7 @@ class _ThemeListState extends State<ThemeList> {
     searchFocusNode = FocusNode();
     scrollController = ScrollController();
 
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db.rawQuery("SELECT theme_id, theme_name  FROM theme;").then((value) {
         setState(() {
           dataList = value.toList();
@@ -43,7 +43,7 @@ class _ThemeListState extends State<ThemeList> {
       });
     });
 
-    routeBus.eventBus.on<ThemeClickEvent>().listen((event) {
+    routeBox.eventBus.on<ThemeClickEvent>().listen((event) {
       searchFocusNode.unfocus();
       searchController.clear();
       setState(() {
@@ -79,7 +79,7 @@ class _ThemeListState extends State<ThemeList> {
 
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "theme",
         appBar: AppBar(),
       ),
@@ -143,7 +143,7 @@ class _ThemeListState extends State<ThemeList> {
                         searchFocusNode.unfocus();
                         Navigator.of(context).push(Const.customRoute((context) {
                           return ChapterByTheme(
-                            routeBus: routeBus,
+                            routeBox: routeBox,
                             themeId: itemValue.first,
                           );
                         })).then((value) {

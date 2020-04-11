@@ -25,13 +25,13 @@ Map<TabItem, IconData> tabIcons = {
 class BottomNavigation extends StatelessWidget {
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
   const BottomNavigation({
     Key key,
     this.currentTab,
     this.onSelectTab,
-    this.routeBus,
+    this.routeBox,
   }) : super(key: key);
 
   @override

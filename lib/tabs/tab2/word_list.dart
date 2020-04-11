@@ -8,20 +8,20 @@ import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab2/verses_by_word.dart';
 
 class WordList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int letterId;
 
-  WordList({Key key, this.routeBus, this.letterId}) : super(key: key);
+  WordList({Key key, this.routeBox, this.letterId}) : super(key: key);
 
   @override
-  _WordListState createState() => _WordListState(routeBus, letterId);
+  _WordListState createState() => _WordListState(routeBox, letterId);
 }
 
 class _WordListState extends State<WordList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int letterId;
 
-  _WordListState(this.routeBus, this.letterId);
+  _WordListState(this.routeBox, this.letterId);
 
   var dataList = new List<Map<String, dynamic>>();
   var searchList = new List<Map<String, dynamic>>();
@@ -40,7 +40,7 @@ class _WordListState extends State<WordList> {
     if (letterId != 0) {
       where = "WHERE letter_id = $letterId;";
     }
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery(
               "SELECT firstline_id, firstline_name, chapter_id, verse_id  FROM firstline $where")
@@ -52,7 +52,7 @@ class _WordListState extends State<WordList> {
       });
     });
 
-    routeBus.eventBus.on<LetterClickEvent>().listen((event) {
+    routeBox.eventBus.on<LetterClickEvent>().listen((event) {
       searchFocusNode.unfocus();
       searchController.clear();
       searchList = dataList;
@@ -86,7 +86,7 @@ class _WordListState extends State<WordList> {
 
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "words",
         appBar: AppBar(),
       ),
@@ -148,7 +148,7 @@ class _WordListState extends State<WordList> {
                       searchFocusNode.unfocus();
                       Navigator.of(context).push(Const.customRoute((context) {
                         return VersesByWord(
-                          routeBus: routeBus,
+                          routeBox: routeBox,
                           chapterId: itemValue[2],
                           verseId: itemValue[3],
                         );

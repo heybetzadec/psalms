@@ -11,13 +11,13 @@ class TabNavigatorRoutes {
 }
 
 class TabNavigator extends StatelessWidget {
-  TabNavigator({this.navigatorKey, this.tabItem, this.routeBus});
+  TabNavigator({this.navigatorKey, this.tabItem, this.routeBox});
 
   final GlobalKey<NavigatorState> navigatorKey;
   final TabItem tabItem;
 
 //  final EventBus eventBus;
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
   void _push(BuildContext context, {ForRoute forRoute}) {
     var routeBuilders = _routeBuilders(context, forRoute: forRoute);
@@ -31,7 +31,7 @@ class TabNavigator extends StatelessWidget {
       TabNavigatorRoutes.root: (context) => TabPages(
             title: tabName[tabItem],
             tabItem: tabItem,
-            routeBus: routeBus,
+            routeBox: routeBox,
             onPush: (forRoute) => _push(context, forRoute: forRoute),
           ),
       TabNavigatorRoutes.detail: (context) => forRoute.widget,

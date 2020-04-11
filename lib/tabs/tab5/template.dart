@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:psalms/help/route_bus.dart';
 
 class Template extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  Template({Key key, this.routeBus}) : super(key: key);
+  Template({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _TemplateState createState() => _TemplateState(routeBus);
+  _TemplateState createState() => _TemplateState(routeBox);
 }
 
 class _TemplateState extends State<Template> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _TemplateState(this.routeBus);
+  _TemplateState(this.routeBox);
 
   @override
   void initState() {

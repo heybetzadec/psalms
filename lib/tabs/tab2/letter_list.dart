@@ -6,18 +6,18 @@ import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab2/word_list.dart';
 
 class LetterList extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  LetterList({Key key, this.routeBus}) : super(key: key);
+  LetterList({Key key, this.routeBox}) : super(key: key);
 
   @override
-  _LetterListState createState() => _LetterListState(routeBus);
+  _LetterListState createState() => _LetterListState(routeBox);
 }
 
 class _LetterListState extends State<LetterList> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
 
-  _LetterListState(this.routeBus);
+  _LetterListState(this.routeBox);
 
   List<Map<String, dynamic>> dataList;
 
@@ -25,7 +25,7 @@ class _LetterListState extends State<LetterList> {
   void initState() {
     dataList = new List<Map<String, dynamic>>();
     dataList.add({'letter_id': 0, 'letter_name': 'All'});
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db.rawQuery("SELECT letter_id, letter_name  FROM letter;").then((value) {
         setState(() {
           dataList.addAll(value);
@@ -39,7 +39,7 @@ class _LetterListState extends State<LetterList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: "words",
         appBar: AppBar(),
       ),
@@ -59,7 +59,7 @@ class _LetterListState extends State<LetterList> {
                 onTap: () {
                   Navigator.of(context).push(Const.customRoute((context) {
                     return WordList(
-                      routeBus: routeBus,
+                      routeBox: routeBox,
                       letterId: itemValue.first,
                     );
                   }));

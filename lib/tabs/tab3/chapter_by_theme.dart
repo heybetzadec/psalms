@@ -6,26 +6,26 @@ import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab3/verses_by_theme.dart';
 
 class ChapterByTheme extends StatefulWidget {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int themeId;
 
-  ChapterByTheme({Key key, this.routeBus, this.themeId}) : super(key: key);
+  ChapterByTheme({Key key, this.routeBox, this.themeId}) : super(key: key);
 
   @override
-  _ChapterByThemeState createState() => _ChapterByThemeState(routeBus, themeId);
+  _ChapterByThemeState createState() => _ChapterByThemeState(routeBox, themeId);
 }
 
 class _ChapterByThemeState extends State<ChapterByTheme> {
-  final RouteBus routeBus;
+  final RouteBox routeBox;
   final int themeId;
 
-  _ChapterByThemeState(this.routeBus, this.themeId);
+  _ChapterByThemeState(this.routeBox, this.themeId);
 
   var dataList = new List<Map<String, dynamic>>();
 
   @override
   void initState() {
-    routeBus.dbf.then((db) {
+    routeBox.dbf.then((db) {
       db
           .rawQuery(
               "SELECT chapter_id  FROM theme_chapter WHERE theme_id = $themeId;")
@@ -42,7 +42,7 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        routeBus: routeBus,
+        routeBox: routeBox,
         titleKey: 'verses',
         appBar: AppBar(),
       ),
@@ -62,7 +62,7 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
                 onTap: () {
                   Navigator.of(context).push(Const.customRoute((context) {
                     return VersesByTheme(
-                      routeBus: routeBus,
+                      routeBox: routeBox,
                       chapterId: itemValue.first,
                     );
                   }));

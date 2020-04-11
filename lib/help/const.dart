@@ -4,12 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Const {
-  static const String launchQRString = 'https://abejapos.com/';
-
-  static const String requestUrl =
-      'http://5.189.153.175:2706/service/dicts/menu?idDepartment=3&digitalMenu=1';
-  static const String MACADDR = '0C:98:38:FA:9F:FD';
-  static const String IND = '2';
 
   static const Color primaryColor = Colors.deepPurple;
   static const Color activeColor = Colors.black;

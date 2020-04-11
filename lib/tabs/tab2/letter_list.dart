@@ -4,6 +4,7 @@ import 'package:psalms/help/const.dart';
 import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab2/word_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LetterList extends StatefulWidget {
   final RouteBox routeBox;
@@ -18,13 +19,14 @@ class _LetterListState extends State<LetterList> {
   final RouteBox routeBox;
   
   List<Map<String, dynamic>> _dataList;
-  
+  double _fontSize = 18;
   
   _LetterListState(this.routeBox);
 
-
   @override
   void initState() {
+    getSharedData();
+
     _dataList = new List<Map<String, dynamic>>();
     _dataList.add({'letter_id': 0, 'letter_name': 'All'});
     routeBox.dbf.then((db) {
@@ -35,6 +37,14 @@ class _LetterListState extends State<LetterList> {
       });
     });
     super.initState();
+  }
+
+
+  Future<void> getSharedData() async {
+    SharedPreferences sharedData = await SharedPreferences.getInstance();
+    setState(() {
+      _fontSize  = sharedData.getDouble('fontSize');
+    });
   }
 
   @override
@@ -67,7 +77,12 @@ class _LetterListState extends State<LetterList> {
                   }));
                 },
                 child: ListTile(
-                  title: Text(' ${itemValue.last}'),
+                  title: Text(
+                      ' ${itemValue.last}',
+                    style: TextStyle(
+                      fontSize: _fontSize
+                    ),
+                  ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     size: 18,

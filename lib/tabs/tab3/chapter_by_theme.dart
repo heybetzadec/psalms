@@ -4,6 +4,7 @@ import 'package:psalms/help/const.dart';
 import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab3/verses_by_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChapterByTheme extends StatefulWidget {
   final RouteBox routeBox;
@@ -19,6 +20,7 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
   final RouteBox routeBox;
   final int themeId;
 
+  double _fontSize = 18;
   var _dataList = new List<Map<String, dynamic>>();
   
   _ChapterByThemeState(this.routeBox, this.themeId);
@@ -26,6 +28,7 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
 
   @override
   void initState() {
+    getSharedData();
     routeBox.dbf.then((db) {
       db
           .rawQuery(
@@ -37,6 +40,13 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
       });
     });
     super.initState();
+  }
+
+  Future<void> getSharedData() async {
+    SharedPreferences sharedData = await SharedPreferences.getInstance();
+    setState(() {
+      _fontSize  = sharedData.getDouble('fontSize');
+    });
   }
 
   @override
@@ -70,7 +80,11 @@ class _ChapterByThemeState extends State<ChapterByTheme> {
                 },
                 child: ListTile(
                   title: Text(
-                      '${Translations.of(context).text("psalm")} ${itemValue.first}'),
+                      '${Translations.of(context).text("psalm")} ${itemValue.first}',
+                    style: TextStyle(
+                      fontSize: _fontSize
+                    ),
+                  ),
                 ),
               ),
 //                color: Colors.transparent,

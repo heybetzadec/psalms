@@ -6,6 +6,7 @@ import 'package:psalms/help/event_key.dart';
 import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab3/chapter_by_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeList extends StatefulWidget {
   final RouteBox routeBox;
@@ -19,6 +20,7 @@ class ThemeList extends StatefulWidget {
 class _ThemeListState extends State<ThemeList> {
   final RouteBox routeBox;
 
+  double _fontSize = 18;
   var _dataList = new List<Map<String, dynamic>>();
   var _searchList = new List<Map<String, dynamic>>();
   FocusNode _searchFocusNode;
@@ -33,6 +35,8 @@ class _ThemeListState extends State<ThemeList> {
   void initState() {
     _searchFocusNode = FocusNode();
     _scrollController = ScrollController();
+
+    getSharedData();
 
     routeBox.dbf.then((db) {
       db.rawQuery("SELECT theme_id, theme_name  FROM theme;").then((value) {
@@ -68,6 +72,14 @@ class _ThemeListState extends State<ThemeList> {
     _searchFocusNode.dispose();
     super.dispose();
   }
+
+  Future<void> getSharedData() async {
+    SharedPreferences sharedData = await SharedPreferences.getInstance();
+    setState(() {
+      _fontSize  = sharedData.getDouble('fontSize');
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +166,12 @@ class _ThemeListState extends State<ThemeList> {
                         });
                       },
                       child: ListTile(
-                        title: Text(' ${itemValue.last}'),
+                        title: Text(
+                            ' ${itemValue.last}',
+                          style: TextStyle(
+                              fontSize: _fontSize
+                          ),
+                        ),
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           size: 18,

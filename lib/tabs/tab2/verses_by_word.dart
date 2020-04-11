@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:psalms/help/base_app_bar.dart';
 import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VersesByWord extends StatefulWidget {
   final RouteBox routeBox;
@@ -23,6 +24,7 @@ class _VersesByWordState extends State<VersesByWord> {
   final int chapterId;
   final int verseId;
 
+  double _fontSize = 18;
   var _dataList = new List<Map<String, dynamic>>();
   
   _VersesByWordState(this.routeBox, this.chapterId, this.verseId);
@@ -30,6 +32,7 @@ class _VersesByWordState extends State<VersesByWord> {
 
   @override
   void initState() {
+    getSharedData();
     routeBox.dbf.then((db) {
       db
           .rawQuery(
@@ -41,6 +44,13 @@ class _VersesByWordState extends State<VersesByWord> {
       });
     });
     super.initState();
+  }
+
+  Future<void> getSharedData() async {
+    SharedPreferences sharedData = await SharedPreferences.getInstance();
+    setState(() {
+      _fontSize  = sharedData.getDouble('fontSize');
+    });
   }
 
   @override
@@ -79,7 +89,12 @@ class _VersesByWordState extends State<VersesByWord> {
                       fontSize: 16.0);
                 },
                 child: ListTile(
-                  title: Text('${itemValue.first}. ${itemValue.last}'),
+                  title: Text(
+                      '${itemValue.first}. ${itemValue.last}',
+                    style: TextStyle(
+                      fontSize: _fontSize
+                    ),
+                  ),
                 ),
               ),
             );

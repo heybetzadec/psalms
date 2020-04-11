@@ -6,6 +6,7 @@ import 'package:psalms/help/event_key.dart';
 import 'package:psalms/help/route_box.dart';
 import 'package:psalms/help/translations.dart';
 import 'package:psalms/tabs/tab2/verses_by_word.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WordList extends StatefulWidget {
   final RouteBox routeBox;
@@ -21,7 +22,7 @@ class _WordListState extends State<WordList> {
   final RouteBox routeBox;
   final int letterId;
 
-
+  double _fontSize = 18;
   var _dataList = new List<Map<String, dynamic>>();
   var _searchList = new List<Map<String, dynamic>>();
   FocusNode __searchFocusNode;
@@ -34,6 +35,7 @@ class _WordListState extends State<WordList> {
 
   @override
   void initState() {
+    getSharedData();
     __searchFocusNode = FocusNode();
     _scrollController = ScrollController();
 
@@ -75,6 +77,13 @@ class _WordListState extends State<WordList> {
   void dispose() {
     __searchFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> getSharedData() async {
+    SharedPreferences sharedData = await SharedPreferences.getInstance();
+    setState(() {
+      _fontSize  = sharedData.getDouble('fontSize');
+    });
   }
 
   @override
